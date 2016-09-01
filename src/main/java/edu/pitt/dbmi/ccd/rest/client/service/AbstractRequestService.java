@@ -14,10 +14,10 @@ import edu.pitt.dbmi.ccd.rest.client.RestHttpsClient;
  */
 public class AbstractRequestService implements RestRequestService {
 
-    protected final String username;// = "kong";
-    protected final String scheme;// = "http";// "https";
-    protected final String hostname;// = "ccd1.vm.bridges.psc.edu";// "54.237.230.113";//
-    protected final int port;// = 49153;// 443;
+    protected final String username;
+    protected final String scheme;
+    protected final String hostname;
+    protected final int port;
 
     protected final CloseableHttpClient httpClient;
     protected final HttpClientContext localContext;

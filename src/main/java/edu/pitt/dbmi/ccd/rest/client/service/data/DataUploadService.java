@@ -30,7 +30,7 @@ public class DataUploadService extends AbstractRequestService {
 
     private final ExecutorService executorService;
 
-    private static final long chunkSize = 32 * 1024;
+    private static final long chunkSize = 512 * 1024;
 
     public DataUploadService(RestHttpsClient restHttpsClient,
 	    int simultaneousUpload, String username, String scheme,

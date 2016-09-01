@@ -40,12 +40,11 @@ import edu.pitt.dbmi.ccd.rest.client.service.data.RemoteDataFileService;
 
 public class RestHttpsClient {
 
-    private final String username;// = "kong";
-    private final String password;// = "kongman20";
-    private final String scheme;// = "http";// "https";
-    private final String hostname;// = "54.237.230.113";//
-				  // "ccd1.vm.bridges.psc.edu";
-    private final int port;// = 49153;// 443;
+    private final String username;
+    private final String password;
+    private final String scheme;
+    private final String hostname;
+    private final int port;
 
     private final CloseableHttpClient httpClient;
     private final HttpClientContext localContext;

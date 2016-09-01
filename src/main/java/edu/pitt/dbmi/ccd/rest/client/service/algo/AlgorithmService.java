@@ -85,6 +85,8 @@ public class AlgorithmService extends AbstractRequestService implements Abstract
 	HttpEntity entity = response.getEntity();
 	String jsonResponse = EntityUtils.toString(entity, "UTF-8");
 	
+	System.out.println(jsonResponse);
+	
 	return JsonUtils.parseJSONObjectToJobRequestInfo(jsonResponse);
     }
 }
