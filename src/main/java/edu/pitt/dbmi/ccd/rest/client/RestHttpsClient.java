@@ -68,14 +68,7 @@ public class RestHttpsClient {
 	SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
 		builder.build(),
 		new String[] { "TLSv1.2" },
-		new String[] { "TLS_RSA_WITH_AES_128_CBC_SHA",
-			"TLS_DHE_DSS_WITH_AES_128_CBC_SHA",
-			"TLS_DHE_RSA_WITH_AES_128_CBC_SHA",
-			"TLS_EMPTY_RENEGOTIATION_INFO_SCSV",
-			"SSL_DHE_DSS_WITH_3DES_EDE_CBC_SHA",
-			"SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA",
-			"SSL_RSA_WITH_3DES_EDE_CBC_SHA",
-			"SSL_RSA_WITH_RC4_128_MD5", "SSL_RSA_WITH_RC4_128_SHA" },
+		null,
 		SSLConnectionSocketFactory.getDefaultHostnameVerifier());
 
 	CredentialsProvider credsProvider = new BasicCredentialsProvider();
