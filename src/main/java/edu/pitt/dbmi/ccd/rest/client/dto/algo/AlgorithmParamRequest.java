@@ -11,17 +11,17 @@ import java.util.Map;
  */
 public class AlgorithmParamRequest {
 
-    private long dataFileId;
+    private long datasetFileId;
     private Map<String, Object> dataValidation;
     private Map<String, Object> AlgorithmParameters;
     private Map<String, Object> jvmOptions;
 
-    public long getDataFileId() {
-	return dataFileId;
+    public long getDatasetFileId() {
+	return datasetFileId;
     }
 
-    public void setDataFileId(long dataFileId) {
-	this.dataFileId = dataFileId;
+    public void setDatasetFileId(long dataFileId) {
+	this.datasetFileId = dataFileId;
     }
 
     public Map<String, Object> getDataValidation() {

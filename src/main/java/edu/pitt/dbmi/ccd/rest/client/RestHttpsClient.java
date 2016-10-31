@@ -1,11 +1,5 @@
 package edu.pitt.dbmi.ccd.rest.client;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -21,15 +15,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 
-import edu.pitt.dbmi.ccd.rest.client.dto.algo.AlgorithmInfo;
-import edu.pitt.dbmi.ccd.rest.client.dto.algo.AlgorithmParamRequest;
-import edu.pitt.dbmi.ccd.rest.client.dto.algo.JobRequestInfo;
-import edu.pitt.dbmi.ccd.rest.client.dto.data.DataFile;
-import edu.pitt.dbmi.ccd.rest.client.service.algo.AbstractAlgorithmRequest;
-import edu.pitt.dbmi.ccd.rest.client.service.algo.AlgorithmService;
-import edu.pitt.dbmi.ccd.rest.client.service.data.DataUploadService;
-import edu.pitt.dbmi.ccd.rest.client.service.data.RemoteDataFileService;
-
 /**
  * 
  * Aug 20, 2016 12:17:02 AM
@@ -40,7 +25,7 @@ import edu.pitt.dbmi.ccd.rest.client.service.data.RemoteDataFileService;
 
 public class RestHttpsClient {
 
-    private final String username;
+    private final String email;
     private final String password;
     private final String scheme;
     private final String hostname;
@@ -48,10 +33,10 @@ public class RestHttpsClient {
 
     private final CloseableHttpClient httpClient;
     private final HttpClientContext localContext;
-
-    public RestHttpsClient(String username, String password, String scheme,
+    
+    public RestHttpsClient(String email, String password, String scheme,
 	    String hostname, int port) throws Exception {
-	this.username = username;
+	this.email = email;
 	this.password = password;
 	this.scheme = scheme;
 	this.hostname = hostname;
@@ -73,7 +58,7 @@ public class RestHttpsClient {
 
 	CredentialsProvider credsProvider = new BasicCredentialsProvider();
 	credsProvider.setCredentials(new AuthScope(hostname, port),
-		new UsernamePasswordCredentials(username, password));
+		new UsernamePasswordCredentials(email, password));
 
 	CloseableHttpClient httpClient = HttpClients.custom()
 		.setSSLSocketFactory(sslsf)
@@ -96,7 +81,7 @@ public class RestHttpsClient {
 	// Add AuthCache to the execution context
 	HttpClientContext localContext = HttpClientContext.create();
 	localContext.setAuthCache(authCache);
-
+	
 	return localContext;
     }
 

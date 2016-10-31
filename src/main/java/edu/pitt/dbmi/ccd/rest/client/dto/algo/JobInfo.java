@@ -9,7 +9,7 @@ import java.util.Date;
  * @author Chirayu (Kong) Wongchokprasitti, PhD
  * 
  */
-public class JobRequestInfo {
+public class JobInfo {
 
     private Long id;
 
@@ -18,8 +18,12 @@ public class JobRequestInfo {
     private Date addedTime;
 
     private String resultFileName;
+    
+    private String resultJsonFileName;
 
     private String errorResultFileName;
+    
+    private int status;
 
     public Long getId() {
         return id;
@@ -53,12 +57,28 @@ public class JobRequestInfo {
         this.resultFileName = resultFileName;
     }
 
+    public String getResultJsonFileName() {
+        return resultJsonFileName;
+    }
+
+    public void setResultJsonFileName(String resultJsonFileName) {
+        this.resultJsonFileName = resultJsonFileName;
+    }
+
     public String getErrorResultFileName() {
         return errorResultFileName;
     }
 
     public void setErrorResultFileName(String errorResultFileName) {
         this.errorResultFileName = errorResultFileName;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
 }

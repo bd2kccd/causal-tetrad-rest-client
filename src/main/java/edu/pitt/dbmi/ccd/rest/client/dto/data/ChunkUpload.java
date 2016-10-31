@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -25,6 +25,8 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
+import edu.pitt.dbmi.ccd.rest.client.dto.user.JsonWebToken;
 
 /**
  * 
@@ -43,7 +45,7 @@ public class ChunkUpload implements Runnable {
 
     private final CloseableHttpClient httpclient;
 
-    private final HttpClientContext localContext;
+    private JsonWebToken jsonWebToken;
 
     private double progress;
 
@@ -56,13 +58,13 @@ public class ChunkUpload implements Runnable {
     private final Map<String, ChunkUpload> fileUploadMap;
 
     public ChunkUpload(Path file, long chunkSize, URI uri,
-	    CloseableHttpClient httpclient, HttpClientContext localContext,
+	    CloseableHttpClient httpclient, JsonWebToken jsonWebToken,
 	    Map<String, ChunkUpload> fileUploadMap) {
 	this.file = file;
 	this.chunkSize = chunkSize;
 	this.uri = uri;
 	this.httpclient = httpclient;
-	this.localContext = localContext;
+	this.jsonWebToken = jsonWebToken;
 	this.fileUploadMap = fileUploadMap;
     }
 
@@ -148,10 +150,11 @@ public class ChunkUpload implements Runnable {
 
 			    URI uri = uriBuilder.build();
 			    HttpGet httpget = new HttpGet(uri);
+			    httpget.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jsonWebToken.getJwt());
 			    //System.out.println("Executing request "
 			    //	    + httpget.getRequestLine());
 			    CloseableHttpResponse response = httpclient
-				    .execute(httpget, localContext);
+				    .execute(httpget);
 
 			    int statusCode = response.getStatusLine()
 				    .getStatusCode();
@@ -218,11 +221,11 @@ public class ChunkUpload implements Runnable {
 
 				HttpEntity httpEntity = multiEnBuilder.build();
 				HttpPost httppost = new HttpPost(uri);
+				httppost.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jsonWebToken.getJwt());
 				httppost.setEntity(httpEntity);
 				//System.out.println("Executing request "
 				//	+ httppost.getRequestLine());
-				response = httpclient.execute(httppost,
-					localContext);
+				response = httpclient.execute(httppost);
 				statusCode = response.getStatusLine()
 					.getStatusCode();
 				if (statusCode == HttpStatus.SC_OK) {

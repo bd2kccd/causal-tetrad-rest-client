@@ -11,9 +11,9 @@ public interface RestRequestService {
 
     public static final String REST_API = "ccd-api";
 
-    public static final String DATA = "data";
+    public static final String DATASET = "dataset";
 
-    public static final String CHUNKUPLOAD = "chunkUpload";
+    public static final String CHUNKUPLOAD = "chunkupload";//"upload/chunk";
 
     public static final String SUMMARIZE = "summarize";
     

@@ -1,41 +1,23 @@
-package edu.pitt.dbmi.ccd.rest.client.dto.data;
+package edu.pitt.dbmi.ccd.rest.client.dto.algo;
 
 import java.util.Date;
 
 /**
  * 
- * Aug 20, 2016 12:17:02 AM
+ * Sep 26, 2016 1:35:27 PM
  * 
  * @author Chirayu (Kong) Wongchokprasitti, PhD
  * 
  */
-public class DataFile {
-
-    private Long id;
-
+public class ResultFile {
+    
     private String name;
-
+    
     private Date creationTime;
-
+    
     private Date lastModifiedTime;
-
+    
     private long fileSize;
-    
-    private String md5checkSum;
-
-    private DataFileSummary fileSummary;
-
-    public DataFile(){
-	
-    }
-    
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -69,20 +51,4 @@ public class DataFile {
         this.fileSize = fileSize;
     }
 
-    public String getMd5checkSum() {
-        return md5checkSum;
-    }
-
-    public void setMd5checkSum(String md5checkSum) {
-        this.md5checkSum = md5checkSum;
-    }
-
-    public DataFileSummary getFileSummary() {
-        return fileSummary;
-    }
-
-    public void setFileSummary(DataFileSummary fileSummary) {
-        this.fileSummary = fileSummary;
-    }
-    
 }

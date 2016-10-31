@@ -9,8 +9,6 @@
  */
 public class DataFileSummary {
 
-    private String md5checkSum;
-
     private String variableType;
 
     private String fileDelimiter;
@@ -23,14 +21,6 @@ public class DataFileSummary {
 	
     }
     
-    public String getMd5checkSum() {
-        return md5checkSum;
-    }
-
-    public void setMd5checkSum(String md5checkSum) {
-        this.md5checkSum = md5checkSum;
-    }
-
     public String getVariableType() {
         return variableType;
     }

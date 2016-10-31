@@ -15,6 +15,7 @@ import org.apache.http.client.utils.URIBuilder;
 import edu.pitt.dbmi.ccd.rest.client.RestHttpsClient;
 import edu.pitt.dbmi.ccd.rest.client.dto.data.ChunkUpload;
 import edu.pitt.dbmi.ccd.rest.client.dto.data.UploadStatus;
+import edu.pitt.dbmi.ccd.rest.client.dto.user.JsonWebToken;
 import edu.pitt.dbmi.ccd.rest.client.service.AbstractRequestService;
 
 /**
@@ -33,9 +34,9 @@ public class DataUploadService extends AbstractRequestService {
     private static final long chunkSize = 512 * 1024;
 
     public DataUploadService(RestHttpsClient restHttpsClient,
-	    int simultaneousUpload, String username, String scheme,
+	    int simultaneousUpload, String scheme,
 	    String hostname, int port) {
-	super(restHttpsClient, username, scheme, hostname, port);
+	super(restHttpsClient, scheme, hostname, port);
 	this.fileUploadMap = new HashMap<>();
 	this.executorService = Executors.newFixedThreadPool(simultaneousUpload);
     }
@@ -70,19 +71,19 @@ public class DataUploadService extends AbstractRequestService {
 	}
     }
 
-    public synchronized boolean startUpload(Path file)
+    public synchronized boolean startUpload(Path file, JsonWebToken jsonWebToken)
 	    throws URISyntaxException {
 	String id = file.toAbsolutePath().toString();
 	URIBuilder uriBuilder = new URIBuilder()
 		.setHost(hostname)
 		.setScheme(scheme)
 		.setPath(
-			"/" + REST_API + "/" + username + "/" + DATA + "/"
-				+ CHUNKUPLOAD).setPort(port);
+			"/" + REST_API + "/" + jsonWebToken.getUserId() + "/" +
+				CHUNKUPLOAD).setPort(port);
 
 	URI uri = uriBuilder.build();
 	ChunkUpload chunkUpload = new ChunkUpload(file, chunkSize, uri,
-		httpClient, localContext, fileUploadMap);
+		httpClient, jsonWebToken, fileUploadMap);
 	fileUploadMap.put(id, chunkUpload);
 	executorService.execute(chunkUpload);
 	executorService.shutdown();

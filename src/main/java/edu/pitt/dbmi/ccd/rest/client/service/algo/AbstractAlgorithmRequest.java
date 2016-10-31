@@ -11,10 +11,12 @@ public interface AbstractAlgorithmRequest {
 
     public static final String ALGORITHMS = "algorithms";
 
-    public static final String JOBS = "jobs";
+    public static final String FGS = "fgsc";
     
-    public static final String FGS = "fgs";
+    public static final String FGS_DISCRETE = "fgsd";
     
-    public static final String FGS_DISCRETE = "fgs-discrete";
-    
+    public static final String GFCI = "gfcic";
+
+    public static final String GFCI_DISCRETE = "gfcid";
+
 }
