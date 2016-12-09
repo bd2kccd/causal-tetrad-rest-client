@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.Ignore;
+
 import edu.pitt.dbmi.ccd.rest.client.dto.algo.AlgorithmParamRequest;
 import edu.pitt.dbmi.ccd.rest.client.dto.algo.JobInfo;
 import edu.pitt.dbmi.ccd.rest.client.dto.algo.ResultFile;
@@ -26,6 +28,7 @@ import junit.framework.TestSuite;
 /**
  * Unit test for simple App.
  */
+@Ignore
 public class PSCClientTest extends TestCase {
     /**
      * Create the test case
@@ -45,10 +48,10 @@ public class PSCClientTest extends TestCase {
     }
 
     public void testApp() throws Exception {
-	final String username = "ccd@pitt.edu";
-	final String password = "causalinference";
+	final String username = "chw20@pitt.edu";
+	final String password = "kongman20";
 	final String scheme = "https";
-	final String hostname = "localhost";
+	final String hostname = "ccd2.vm.bridges.psc.edu";
 	final int port = 443;
 
 	RestHttpsClient restClient = new RestHttpsClient(username, password,
@@ -61,7 +64,7 @@ public class PSCClientTest extends TestCase {
 
 	DataUploadService dataUploadService = new DataUploadService(restClient,
 		4, scheme, hostname, port);
-	Path file = Paths.get("data_small.txt");
+	Path file = Paths.get("/Users/kong/Documents/DBMI/tetrad/causal-cmd/test/data/diff_delim/sim_data_20vars_100cases.txt");
 	dataUploadService.startUpload(file, jsonWebToken);
 
 	RemoteDataFileService remoteDataService = new RemoteDataFileService(
@@ -72,10 +75,14 @@ public class PSCClientTest extends TestCase {
 	    System.out.println("Upload Progress: " + progress + "%");
 	    Thread.sleep(500);
 	}
+
 	Set<DataFile> dataFiles = remoteDataService
 		.retrieveDataFileInfo(jsonWebToken);
 	long id = -1;
 	for (DataFile dataFile : dataFiles) {
+	    
+	    System.out.println(dataFile.getName() + "\t" + dataFile.getFileSummary().getVariableType());
+	    
 	    if (dataFile.getName().equalsIgnoreCase(
 		    file.getFileName().toString())) {
 		id = dataFile.getId();
@@ -90,6 +97,7 @@ public class PSCClientTest extends TestCase {
 	// Show a list of algorithms
 	AlgorithmService algorithmService = new AlgorithmService(restClient,
 		scheme, hostname, port);
+
 	// Set<AlgorithmInfo> algoInfos =
 	algorithmService.listAllAlgorithms(jsonWebToken);
 

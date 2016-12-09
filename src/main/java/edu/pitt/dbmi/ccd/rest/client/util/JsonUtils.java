@@ -9,14 +9,6 @@ import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import edu.cmu.tetrad.graph.Edge;
-import edu.cmu.tetrad.graph.EdgeListGraphSingleConnections;
-import edu.cmu.tetrad.graph.Endpoint;
-import edu.cmu.tetrad.graph.Graph;
-import edu.cmu.tetrad.graph.GraphNode;
-import edu.cmu.tetrad.graph.Node;
-import edu.cmu.tetrad.graph.NodeType;
-import edu.cmu.tetrad.graph.Triple;
 import edu.pitt.dbmi.ccd.rest.client.dto.algo.AlgorithmInfo;
 import edu.pitt.dbmi.ccd.rest.client.dto.algo.JobInfo;
 import edu.pitt.dbmi.ccd.rest.client.dto.algo.ResultFile;
@@ -33,28 +25,28 @@ import edu.pitt.dbmi.ccd.rest.client.dto.user.JsonWebToken;
  */
 public class JsonUtils {
 
-    public static JsonWebToken parseJSONObjectToJsonWebToken(JSONObject jObj){
+    public static JsonWebToken parseJSONObjectToJsonWebToken(JSONObject jObj) {
 	JsonWebToken jsonWebToken = new JsonWebToken();
-	
+
 	int userId = jObj.getInt("userId");
 	String jwt = jObj.getString("jwt");
 	long issuedTime = jObj.getLong("issuedTime");
 	long lifetime = jObj.getLong("lifetime");
 	long expireTime = jObj.getLong("expireTime");
-	
+
 	jsonWebToken.setUserId(userId);
 	jsonWebToken.setJwt(jwt);
 	jsonWebToken.setIssuedTime(new Date(issuedTime));
 	jsonWebToken.setLifetime(lifetime);
 	jsonWebToken.setExpireTime(new Date(expireTime));
-	
+
 	return jsonWebToken;
     }
-    
-    public static JsonWebToken parseJSONObjectToJsonWebToken(String jsonResponse){
+
+    public static JsonWebToken parseJSONObjectToJsonWebToken(String jsonResponse) {
 	return parseJSONObjectToJsonWebToken(new JSONObject(jsonResponse));
     }
-    
+
     public static Set<DataFile> parseJSONArrayToDataFiles(String jsonResponse) {
 	Set<DataFile> dataFiles = new HashSet<>();
 
@@ -82,23 +74,6 @@ public class JsonUtils {
 	dataFile.setFileSize(fileSize);
 	dataFile.setMd5checkSum(md5checkSum);
 
-	JSONObject fileSummary = jObj.getJSONObject("fileSummary");
-	String variableType = fileSummary.get("variableType") instanceof String ? fileSummary
-		.getString("variableType") : null;
-	String fileDelimiter = fileSummary.get("fileDelimiter") instanceof String ? fileSummary
-		.getString("fileDelimiter") : null;
-	Integer numOfRows = fileSummary.get("numOfRows") instanceof Integer ? fileSummary
-		.getInt("numOfRows") : null;
-	Integer numOfColumns = fileSummary.get("numOfColumns") instanceof Integer ? fileSummary
-		.getInt("numOfColumns") : null;
-
-	DataFileSummary dataFileSummary = new DataFileSummary();
-	dataFileSummary.setVariableType(variableType);
-	dataFileSummary.setFileDelimiter(fileDelimiter);
-	dataFileSummary.setNumOfRows(numOfRows);
-	dataFileSummary.setNumOfColumns(numOfColumns);
-	dataFile.setFileSummary(dataFileSummary);
-
 	System.out.println("id: " + id);
 	System.out.println("name: " + name);
 	System.out.println("creationTime: " + dataFile.getCreationTime());
@@ -106,10 +81,30 @@ public class JsonUtils {
 		+ dataFile.getLastModifiedTime());
 	System.out.println("fileSize: " + fileSize);
 	System.out.println("md5checkSum: " + md5checkSum);
-	System.out.println("variableType: " + variableType);
-	System.out.println("fileDelimiter: " + fileDelimiter);
-	System.out.println("numOfRows: " + numOfRows);
-	System.out.println("numOfColumns: " + numOfColumns);
+
+	if (!jObj.isNull("fileSummary")) {
+	    JSONObject fileSummary = jObj.getJSONObject("fileSummary");
+	    String variableType = fileSummary.get("variableType") instanceof String ? fileSummary
+		    .getString("variableType") : null;
+	    String fileDelimiter = fileSummary.get("fileDelimiter") instanceof String ? fileSummary
+		    .getString("fileDelimiter") : null;
+	    Integer numOfRows = fileSummary.get("numOfRows") instanceof Integer ? fileSummary
+		    .getInt("numOfRows") : null;
+	    Integer numOfColumns = fileSummary.get("numOfColumns") instanceof Integer ? fileSummary
+		    .getInt("numOfColumns") : null;
+
+	    DataFileSummary dataFileSummary = new DataFileSummary();
+	    dataFileSummary.setVariableType(variableType);
+	    dataFileSummary.setFileDelimiter(fileDelimiter);
+	    dataFileSummary.setNumOfRows(numOfRows);
+	    dataFileSummary.setNumOfColumns(numOfColumns);
+	    dataFile.setFileSummary(dataFileSummary);
+
+	    System.out.println("variableType: " + variableType);
+	    System.out.println("fileDelimiter: " + fileDelimiter);
+	    System.out.println("numOfRows: " + numOfRows);
+	    System.out.println("numOfColumns: " + numOfColumns);
+	}
 
 	System.out.println("----------------------------------------");
 
@@ -155,7 +150,7 @@ public class JsonUtils {
 	JSONObject jObj = new JSONObject(jsonResponse);
 	return parseJSONObjectToJobInfo(jObj);
     }
-    
+
     public static JobInfo parseJSONObjectToJobInfo(JSONObject jObj) {
 	long id = jObj.getLong("id");
 	String algorithmName = jObj.getString("algorithmName");
@@ -164,7 +159,7 @@ public class JsonUtils {
 	String resultFileName = jObj.getString("resultFileName");
 	String resultJsonFileName = jObj.getString("resultJsonFileName");
 	String errorResultFileName = jObj.getString("errorResultFileName");
-	
+
 	JobInfo jobInfo = new JobInfo();
 	jobInfo.setId(id);
 	jobInfo.setAlgorithmName(algorithmName);
@@ -173,7 +168,7 @@ public class JsonUtils {
 	jobInfo.setResultFileName(resultFileName);
 	jobInfo.setResultJsonFileName(resultJsonFileName);
 	jobInfo.setErrorResultFileName(errorResultFileName);
-	
+
 	System.out.println("Job id: " + id);
 	System.out.println("Algorithm name: " + algorithmName);
 	System.out.println("Status: " + status);
@@ -185,29 +180,31 @@ public class JsonUtils {
 
 	return jobInfo;
     }
-    
-    public static List<JobInfo> parseJSONArrayToJobInfos(String jsonResponse){
+
+    public static List<JobInfo> parseJSONArrayToJobInfos(String jsonResponse) {
 	List<JobInfo> jobInfos = new ArrayList<JobInfo>();
-	
+
 	JSONArray jArray = new JSONArray(jsonResponse);
-	for (int i = 0; i < jArray.length(); i++) {    
+	for (int i = 0; i < jArray.length(); i++) {
 	    jobInfos.add(parseJSONObjectToJobInfo(jArray.getJSONObject(i)));
 	}
-	
+
 	return jobInfos;
     }
-    
-    public static Set<ResultFile> parseJSONArrayToResultFiles(String jsonResponse) {
+
+    public static Set<ResultFile> parseJSONArrayToResultFiles(
+	    String jsonResponse) {
 	Set<ResultFile> resultFiles = new HashSet<>();
 
 	JSONArray jArray = new JSONArray(jsonResponse);
 	for (int i = 0; i < jArray.length(); i++) {
-	    resultFiles.add(parseJSONObjectToResultFile(jArray.getJSONObject(i)));
+	    resultFiles
+		    .add(parseJSONObjectToResultFile(jArray.getJSONObject(i)));
 	}
 
 	return resultFiles;
     }
-    
+
     public static ResultFile parseJSONObjectToResultFile(JSONObject jObj) {
 	String name = jObj.get("name").toString();
 	long creationTime = jObj.getLong("creationTime");
@@ -235,113 +232,4 @@ public class JsonUtils {
 	return parseJSONObjectToResultFile(new JSONObject(jsonResponse));
     }
 
-    public static Graph parseJSONObjectToTetradGraph(String jsonResponse) {
-	return parseJSONObjectToTetradGraph(new JSONObject(jsonResponse));
-    }
-    
-    public static Graph parseJSONObjectToTetradGraph(JSONObject jObj) {
-	// Node
-	List<Node> nodes = parseJSONArrayToTetradNodes(jObj.getJSONArray("nodes"));
-	EdgeListGraphSingleConnections graph = new EdgeListGraphSingleConnections(nodes);
-	
-	// Edge
-	Set<Edge> edges = parseJSONArrayToTetradEdges(graph, jObj.getJSONArray("edgesSet"));
-	for(Edge edge : edges){
-	    graph.addEdge(edge);
-	}
-	
-	// ambiguousTriples
-	Set<Triple> ambiguousTriples = parseJSONArrayToTetradTriples(jObj.getJSONArray("ambiguousTriples"));
-	for(Triple triple : ambiguousTriples){
-		graph.addAmbiguousTriple(triple.getX(), triple.getY(), triple.getZ());
-	}
-	
-	// underLineTriples
-	Set<Triple> underLineTriples = parseJSONArrayToTetradTriples(jObj.getJSONArray("underLineTriples"));
-	for(Triple triple : underLineTriples){
-		graph.addUnderlineTriple(triple.getX(), triple.getY(), triple.getZ());
-	}
-	
-	// dottedUnderLineTriples
-	Set<Triple> dottedUnderLineTriples = parseJSONArrayToTetradTriples(jObj.getJSONArray("dottedUnderLineTriples"));
-	for(Triple triple : dottedUnderLineTriples){
-		graph.addDottedUnderlineTriple(triple.getX(), triple.getY(), triple.getZ());
-	}
-	
-	// stuffRemovedSinceLastTripleAccess
-	boolean stuffRemovedSinceLastTripleAccess = jObj.getBoolean("stuffRemovedSinceLastTripleAccess");
-	graph.setStuffRemovedSinceLastTripleAccess(stuffRemovedSinceLastTripleAccess);
-	
-	// highlightedEdges
-	Set<Edge> highlightedEdges = parseJSONArrayToTetradEdges(graph, jObj.getJSONArray("highlightedEdges"));
-	for(Edge edge : highlightedEdges){
-	    graph.setHighlighted(edge, true);
-	}
-	
-	return graph;
-    }
-    
-    public static Set<Triple> parseJSONArrayToTetradTriples(JSONArray jArray) {
-	Set<Triple> triples = new HashSet<>();
-	
-	for(int i=0;i<jArray.length();i++){
-	    Triple triple = parseJSONArrayToTetradTriple(jArray.getJSONObject(i));
-	    triples.add(triple);
-	}
-	
-	return triples;
-    }
-    
-    public static Triple parseJSONArrayToTetradTriple(JSONObject jObj) {
-	Node x = parseJSONObjectToTetradNode(jObj.getJSONObject("x"));
-	Node y = parseJSONObjectToTetradNode(jObj.getJSONObject("y"));
-	Node z = parseJSONObjectToTetradNode(jObj.getJSONObject("z"));
-	
-	return new Triple(x, y, z);
-    }
-    
-    public static Set<Edge> parseJSONArrayToTetradEdges(Graph graph, JSONArray jArray) {
-	Set<Edge> edges = new HashSet<>();
-	
-	for(int i=0;i<jArray.length();i++){
-	   Edge edge =  parseJSONObjectToTetradEdge(graph, jArray.getJSONObject(i));
-	   edges.add(edge);
-	}
-	
-	return edges;
-    }
-    
-    public static Edge parseJSONObjectToTetradEdge(Graph graph, JSONObject jObj) {
-	Node node1 = graph.getNode(jObj.getJSONObject("node1").getString("name"));
-	Node node2 = graph.getNode(jObj.getJSONObject("node2").getString("name"));
-	Endpoint endpoint1 = Endpoint.TYPES[jObj.getJSONObject("endpoint1").getInt("ordinal")];
-	Endpoint endpoint2 = Endpoint.TYPES[jObj.getJSONObject("endpoint2").getInt("ordinal")];
-	return new Edge(node1, node2, endpoint1, endpoint2);
-    }
-    
-    public static List<Node> parseJSONArrayToTetradNodes(JSONArray jArray) {
-	List<Node> nodes = new ArrayList<>();
-	
-	for(int i=0;i<jArray.length();i++){
-	    Node node = parseJSONObjectToTetradNode(jArray.getJSONObject(i));
-	    nodes.add(node);
-	}
-	
-	return nodes;
-    }
-    
-    public static Node parseJSONObjectToTetradNode(JSONObject jObj) {
-	JSONObject nodeType = jObj.getJSONObject("nodeType");
-	int ordinal = nodeType.getInt("ordinal");
-	int centerX = jObj.getInt("centerX");
-	int centerY = jObj.getInt("centerY");
-	String name = jObj.getString("name");
-	
-	GraphNode graphNode = new GraphNode(name);
-	graphNode.setNodeType(NodeType.TYPES[ordinal]);
-	graphNode.setCenter(centerX, centerY);
-	
-	return graphNode;
-    }
-    
 }

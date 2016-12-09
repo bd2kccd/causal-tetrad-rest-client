@@ -37,12 +37,8 @@ public class UserService extends AbstractRequestService implements
 		.setPort(port);
 
 	URI uri = uriBuilder.build();
-	//HttpGet httpget = new HttpGet(uri);
-	//httpget.addHeader(HttpHeaders.ACCEPT, "application/json");
 
-	//System.out.println("Executing request " + httpget.getRequestLine());
-	CloseableHttpResponse response = doGet(uri);//httpClient.execute(httpget,
-		//localContext);
+	CloseableHttpResponse response = doGet(uri);
 	
 	HttpEntity entity = response.getEntity();
 	String jsonResponse = EntityUtils.toString(entity, "UTF-8");

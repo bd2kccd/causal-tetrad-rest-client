@@ -88,6 +88,7 @@ public class RemoteDataFileService extends AbstractRequestService {
 	jsonRequest.put("variableType", variableType);
 	jsonRequest.put("fileDelimiter", fileDelimiter);
 	String json = jsonRequest.toString();
+	System.out.println(json);
 	StringEntity requestEntity = new StringEntity(json,
 		ContentType.APPLICATION_JSON);
 
@@ -98,10 +99,45 @@ public class RemoteDataFileService extends AbstractRequestService {
 
 	HttpEntity entity = response.getEntity();
 	String jsonResponse = EntityUtils.toString(entity, "UTF-8");
-
+	System.out.println(jsonResponse);
+	
 	EntityUtils.consume(entity);
 
 	return JsonUtils.parseJSONObjectToDataFile(jsonResponse);
     }
+
+    public Set<DataFile> retrievePriorKnowledgeFileInfo(JsonWebToken jsonWebToken)
+	    throws URISyntaxException, ClientProtocolException, IOException {
+
+	URIBuilder uriBuilder = new URIBuilder().setHost(hostname)
+		.setScheme(scheme)
+		.setPath("/" + REST_API + "/" + jsonWebToken.getUserId() + "/" + PRIOR_KNOWLEDGE)
+		.setPort(port);
+
+	URI uri = uriBuilder.build();
+	/*HttpGet httpget = new HttpGet(uri);
+	httpget.addHeader(HttpHeaders.ACCEPT, "application/json");
+	httpget.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jsonWebToken.getJwt());
+	System.out.println("Executing request " + httpget.getRequestLine());*/
+	CloseableHttpResponse response = doGet(uri, jsonWebToken);//httpClient.execute(httpget);
+
+	HttpEntity entity = response.getEntity();
+	String jsonResponse = EntityUtils.toString(entity, "UTF-8");
+	System.out.println(jsonResponse);
+	/*System.out.println("----------------------------------------");
+
+	Header[] header = response.getAllHeaders();
+	for (int i = 0; i < header.length; i++) {
+	    String name = header[i].getName();
+	    String value = header[i].getValue();
+	    System.out.println(name + ":" + value);
+	}
+	System.out.println("----------------------------------------");*/
+
+	EntityUtils.consume(entity);
+
+	return JsonUtils.parseJSONArrayToDataFiles(jsonResponse);
+    }
+
 
 }

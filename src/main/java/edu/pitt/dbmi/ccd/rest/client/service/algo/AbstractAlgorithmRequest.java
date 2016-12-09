@@ -11,9 +11,9 @@ public interface AbstractAlgorithmRequest {
 
     public static final String ALGORITHMS = "algorithms";
 
-    public static final String FGS = "fgsc";
+    public static final String FGES = "fgesc";
     
-    public static final String FGS_DISCRETE = "fgsd";
+    public static final String FGES_DISCRETE = "fgesd";
     
     public static final String GFCI = "gfcic";
 
