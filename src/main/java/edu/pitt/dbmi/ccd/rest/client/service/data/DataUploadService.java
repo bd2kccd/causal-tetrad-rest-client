@@ -86,7 +86,7 @@ public class DataUploadService extends AbstractRequestService {
 		httpClient, jsonWebToken, fileUploadMap);
 	fileUploadMap.put(id, chunkUpload);
 	executorService.execute(chunkUpload);
-	executorService.shutdown();
+	// executorService.shutdown();
 	// executorService.awaitTermination(5, TimeUnit.MINUTES);
 
 	return true;

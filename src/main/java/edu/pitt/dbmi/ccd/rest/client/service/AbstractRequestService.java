@@ -7,6 +7,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
@@ -94,4 +95,15 @@ public class AbstractRequestService implements RestRequestService {
 	return response;
     }
 
+    protected CloseableHttpResponse doDelete(URI uri, JsonWebToken jsonWebToken) throws ClientProtocolException, IOException{
+	HttpDelete httpDelete = new HttpDelete(uri);
+	httpDelete.addHeader(HttpHeaders.ACCEPT, "application/json");
+	httpDelete.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jsonWebToken.getJwt());
+	System.out.println("Executing request " + httpDelete.getRequestLine());
+	
+	CloseableHttpResponse response = httpClient.execute(httpDelete);
+	
+	return response;
+    }
+    
 }
