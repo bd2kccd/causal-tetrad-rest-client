@@ -21,10 +21,8 @@ public class JsonWebToken {
     
     private Date expireTime;
     
-    private int wallTime;
+    private String[] wallTime;
     
-    private int wallTimeMax;
-
     public int getUserId() {
         return userId;
     }
@@ -65,20 +63,12 @@ public class JsonWebToken {
         this.expireTime = expireTime;
     }
 
-	public int getWallTime() {
+	public String[] getWallTime() {
 		return wallTime;
 	}
 
-	public void setWallTime(int wallTime) {
+	public void setWallTime(String[] wallTime) {
 		this.wallTime = wallTime;
-	}
-
-	public int getWallTimeMax() {
-		return wallTimeMax;
-	}
-
-	public void setWallTimeMax(int wallTimeMax) {
-		this.wallTimeMax = wallTimeMax;
 	}
 
 }

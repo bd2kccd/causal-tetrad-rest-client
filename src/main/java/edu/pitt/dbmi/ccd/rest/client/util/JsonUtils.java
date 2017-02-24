@@ -33,8 +33,16 @@ public class JsonUtils {
 		long issuedTime = jObj.getLong("issuedTime");
 		long lifetime = jObj.getLong("lifetime");
 		long expireTime = jObj.getLong("expireTime");
-		int wallTime = jObj.getInt("wallTime");
-		int wallTimeMax = jObj.getInt("wallTimeMax");
+		JSONArray wallTimeArray = jObj.getJSONArray("wallTime");
+		String[] wallTime = null;
+		
+		if(wallTimeArray.length() > 0){
+			wallTime = new String[wallTimeArray.length()];
+			for(int index=0;index<wallTimeArray.length();index++){
+				Object obj = wallTimeArray.get(index);
+				wallTime[index] = obj.toString();
+			}
+		}
 
 		jsonWebToken.setUserId(userId);
 		jsonWebToken.setJwt(jwt);
@@ -42,7 +50,7 @@ public class JsonUtils {
 		jsonWebToken.setLifetime(lifetime);
 		jsonWebToken.setExpireTime(new Date(expireTime));
 		jsonWebToken.setWallTime(wallTime);
-		jsonWebToken.setWallTimeMax(wallTimeMax);
+		
 
 		return jsonWebToken;
 	}
