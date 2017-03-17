@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import edu.pitt.dbmi.ccd.rest.client.dto.algo.AlgorithmInfo;
@@ -33,14 +34,16 @@ public class JsonUtils {
 		long issuedTime = jObj.getLong("issuedTime");
 		long lifetime = jObj.getLong("lifetime");
 		long expireTime = jObj.getLong("expireTime");
-		JSONArray wallTimeArray = jObj.getJSONArray("wallTime");
 		String[] wallTime = null;
 		
-		if(wallTimeArray.length() > 0){
-			wallTime = new String[wallTimeArray.length()];
-			for(int index=0;index<wallTimeArray.length();index++){
-				Object obj = wallTimeArray.get(index);
-				wallTime[index] = obj.toString();
+		if(!jObj.isNull("wallTime")){
+			JSONArray wallTimeArray = jObj.getJSONArray("wallTime");
+			if(wallTimeArray != null && wallTimeArray.length() > 0){
+				wallTime = new String[wallTimeArray.length()];
+				for(int index=0;index<wallTimeArray.length();index++){
+					Object obj = wallTimeArray.get(index);
+					wallTime[index] = obj.toString();
+				}
 			}
 		}
 
