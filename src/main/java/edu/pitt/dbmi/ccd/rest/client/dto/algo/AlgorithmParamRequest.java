@@ -1,5 +1,6 @@
 package edu.pitt.dbmi.ccd.rest.client.dto.algo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +20,8 @@ public class AlgorithmParamRequest {
 	
 	private Map<String, Object> jvmOptions;
 
-	private Map<String, Object> hpcParameters;
+	private List<HpcParameter> hpcParameters;	
+	
 	
 	public long getDatasetFileId() {
 		return datasetFileId;
@@ -53,11 +55,13 @@ public class AlgorithmParamRequest {
 		this.jvmOptions = jvmOptions;
 	}
 
-	public Map<String, Object> getHpcParameters() {
+	public List<HpcParameter> getHpcParameters() {
 		return hpcParameters;
 	}
 
-	public void setHpcParameters(Map<String, Object> hpcParameters) {
+	public void setHpcParameters(List<HpcParameter> hpcParameters) {
 		this.hpcParameters = hpcParameters;
 	}
+
+	
 }
