@@ -3,26 +3,26 @@ package edu.pitt.dbmi.ccd.rest.client.dto.user;
 import java.util.Date;
 
 /**
- * 
+ *
  * Oct 18, 2016 3:45:11 PM
- * 
+ *
  * @author Chirayu (Kong) Wongchokprasitti, PhD
- * 
+ *
  */
 public class JsonWebToken {
-    
+
     private int userId;
-    
+
     private String jwt;
-    
+
     private Date issuedTime;
-    
+
     private long lifetime;
-    
+
     private Date expireTime;
-    
+
     private String[] wallTime;
-    
+
     public int getUserId() {
         return userId;
     }
@@ -63,12 +63,12 @@ public class JsonWebToken {
         this.expireTime = expireTime;
     }
 
-	public String[] getWallTime() {
-		return wallTime;
-	}
+    public String[] getWallTime() {
+        return wallTime;
+    }
 
-	public void setWallTime(String[] wallTime) {
-		this.wallTime = wallTime;
-	}
+    public void setWallTime(String[] wallTime) {
+        this.wallTime = wallTime;
+    }
 
 }

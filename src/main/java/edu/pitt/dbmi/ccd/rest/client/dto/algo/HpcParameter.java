@@ -16,48 +16,34 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package edu.pitt.dbmi.ccd.rest.client.dto.data;
+package edu.pitt.dbmi.ccd.rest.client.dto.algo;
 
 /**
  *
- * Sep 22, 2015 12:59:11 PM
+ * Feb 21, 2017 12:24:39 PM
  *
- * @author Kevin V. Bui (kvb2@pitt.edu)
- *
- * Dec 15, 2015 12:55:27 PM
- *
- * @author Chirayu (Kong) Wongchokprasitti
+ * @author Chirayu Kong Wongchokprasitti, PhD (chw20@pitt.edu)
  *
  */
-public class UploadStatus {
+public class HpcParameter {
 
-    private String id;
+    private String key;
 
-    private boolean paused;
+    private String value;
 
-    /**
-     * @param id
-     * @param paused
-     */
-    public UploadStatus(String id, boolean paused) {
-        this.id = id;
-        this.paused = paused;
+    public String getKey() {
+        return key;
     }
 
-    public String getId() {
-        return id;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getValue() {
+        return value;
     }
 
-    public boolean isPaused() {
-        return paused;
+    public void setValue(String value) {
+        this.value = value;
     }
-
-    public void setPaused(boolean paused) {
-        this.paused = paused;
-    }
-
 }
