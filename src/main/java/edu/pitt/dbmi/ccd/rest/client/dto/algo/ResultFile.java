@@ -3,20 +3,20 @@ package edu.pitt.dbmi.ccd.rest.client.dto.algo;
 import java.util.Date;
 
 /**
- * 
+ *
  * Sep 26, 2016 1:35:27 PM
- * 
+ *
  * @author Chirayu (Kong) Wongchokprasitti, PhD
- * 
+ *
  */
 public class ResultFile {
-    
+
     private String name;
-    
+
     private Date creationTime;
-    
+
     private Date lastModifiedTime;
-    
+
     private long fileSize;
 
     public String getName() {

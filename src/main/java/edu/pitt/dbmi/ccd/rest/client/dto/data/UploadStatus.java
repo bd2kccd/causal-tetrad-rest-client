@@ -23,41 +23,41 @@ package edu.pitt.dbmi.ccd.rest.client.dto.data;
  * Sep 22, 2015 12:59:11 PM
  *
  * @author Kevin V. Bui (kvb2@pitt.edu)
- * 
+ *
  * Dec 15, 2015 12:55:27 PM
- * 
+ *
  * @author Chirayu (Kong) Wongchokprasitti
  *
  */
 public class UploadStatus {
 
-	private String id;
+    private String id;
 
-	private boolean paused;
+    private boolean paused;
 
-	/**
-	 * @param id
-	 * @param paused
-	 */
-	public UploadStatus(String id, boolean paused) {
-		this.id = id;
-		this.paused = paused;
-	}
+    /**
+     * @param id
+     * @param paused
+     */
+    public UploadStatus(String id, boolean paused) {
+        this.id = id;
+        this.paused = paused;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public boolean isPaused() {
-		return paused;
-	}
+    public boolean isPaused() {
+        return paused;
+    }
 
-	public void setPaused(boolean paused) {
-		this.paused = paused;
-	}
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
 
 }

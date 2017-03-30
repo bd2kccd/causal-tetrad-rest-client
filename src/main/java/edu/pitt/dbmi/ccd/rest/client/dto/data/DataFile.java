@@ -3,11 +3,11 @@ package edu.pitt.dbmi.ccd.rest.client.dto.data;
 import java.util.Date;
 
 /**
- * 
+ *
  * Aug 20, 2016 12:17:02 AM
- * 
+ *
  * @author Chirayu (Kong) Wongchokprasitti, PhD
- * 
+ *
  */
 public class DataFile {
 
@@ -20,15 +20,15 @@ public class DataFile {
     private Date lastModifiedTime;
 
     private long fileSize;
-    
+
     private String md5checkSum;
 
     private DataFileSummary fileSummary;
 
-    public DataFile(){
-	
+    public DataFile() {
+
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -84,5 +84,5 @@ public class DataFile {
     public void setFileSummary(DataFileSummary fileSummary) {
         this.fileSummary = fileSummary;
     }
-    
+
 }

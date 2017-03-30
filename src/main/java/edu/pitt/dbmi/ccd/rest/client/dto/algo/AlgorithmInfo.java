@@ -1,11 +1,11 @@
 package edu.pitt.dbmi.ccd.rest.client.dto.algo;
 
 /**
- * 
+ *
  * Aug 24, 2016 6:09:21 PM
- * 
+ *
  * @author Chirayu (Kong) Wongchokprasitti, PhD
- * 
+ *
  */
 public class AlgorithmInfo {
 
@@ -18,27 +18,27 @@ public class AlgorithmInfo {
     }
 
     public int getId() {
-	return id;
+        return id;
     }
 
     public void setId(int id) {
-	this.id = id;
+        this.id = id;
     }
 
     public String getName() {
-	return name;
+        return name;
     }
 
     public void setName(String name) {
-	this.name = name;
+        this.name = name;
     }
 
     public String getDescription() {
-	return description;
+        return description;
     }
 
     public void setDescription(String description) {
-	this.description = description;
+        this.description = description;
     }
 
 }

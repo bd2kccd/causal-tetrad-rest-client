@@ -1,11 +1,11 @@
- package edu.pitt.dbmi.ccd.rest.client.dto.data;
+package edu.pitt.dbmi.ccd.rest.client.dto.data;
 
 /**
- * 
+ *
  * Aug 20, 2016 12:19:08 AM
- * 
+ *
  * @author Chirayu (Kong) Wongchokprasitti, PhD
- * 
+ *
  */
 public class DataFileSummary {
 
@@ -17,10 +17,10 @@ public class DataFileSummary {
 
     private Integer numOfColumns;
 
-    public DataFileSummary(){
-	
+    public DataFileSummary() {
+
     }
-    
+
     public String getVariableType() {
         return variableType;
     }
@@ -52,5 +52,5 @@ public class DataFileSummary {
     public void setNumOfColumns(Integer numOfColumns) {
         this.numOfColumns = numOfColumns;
     }
-    
+
 }

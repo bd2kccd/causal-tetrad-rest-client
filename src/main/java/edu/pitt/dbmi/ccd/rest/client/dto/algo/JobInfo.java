@@ -3,11 +3,11 @@ package edu.pitt.dbmi.ccd.rest.client.dto.algo;
 import java.util.Date;
 
 /**
- * 
+ *
  * Aug 31, 2016 12:48:31 PM
- * 
+ *
  * @author Chirayu (Kong) Wongchokprasitti, PhD
- * 
+ *
  */
 public class JobInfo {
 
@@ -18,11 +18,11 @@ public class JobInfo {
     private Date addedTime;
 
     private String resultFileName;
-    
+
     private String resultJsonFileName;
 
     private String errorResultFileName;
-    
+
     private int status;
 
     public Long getId() {

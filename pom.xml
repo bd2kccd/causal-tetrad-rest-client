@@ -4,7 +4,7 @@
 
     <groupId>edu.pitt.dbmi.ccd</groupId>
     <artifactId>causal-tetrad-rest-client</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
 
     <name>causal-tetrad-rest-client</name>
