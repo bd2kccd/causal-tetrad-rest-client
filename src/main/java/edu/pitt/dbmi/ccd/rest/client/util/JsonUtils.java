@@ -1,10 +1,13 @@
 package edu.pitt.dbmi.ccd.rest.client.util;
 
 import edu.pitt.dbmi.ccd.rest.client.dto.algo.AlgorithmInfo;
+import edu.pitt.dbmi.ccd.rest.client.dto.algo.IndTestInfo;
 import edu.pitt.dbmi.ccd.rest.client.dto.algo.JobInfo;
 import edu.pitt.dbmi.ccd.rest.client.dto.algo.ResultFile;
+import edu.pitt.dbmi.ccd.rest.client.dto.algo.ScoreInfo;
 import edu.pitt.dbmi.ccd.rest.client.dto.data.DataFile;
 import edu.pitt.dbmi.ccd.rest.client.dto.data.DataFileSummary;
+import edu.pitt.dbmi.ccd.rest.client.dto.data.DataType;
 import edu.pitt.dbmi.ccd.rest.client.dto.user.JsonWebToken;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,11 +56,93 @@ public class JsonUtils {
 
         return jsonWebToken;
     }
-
+    
     public static JsonWebToken parseJSONObjectToJsonWebToken(String jsonResponse) {
         return parseJSONObjectToJsonWebToken(new JSONObject(jsonResponse));
     }
 
+    public static ScoreInfo parseJSONArrayToScore(JSONObject jObj){
+    	String id = jObj.getString("id");
+    	String name = jObj.getString("name");
+    	Set<DataType> supportedDataTypes = parseJSONArrayToDataTypes(jObj.getJSONArray("supportedDataTypes"));
+    	
+    	ScoreInfo scoreInfo = new ScoreInfo();
+    	scoreInfo.setId(id);
+    	scoreInfo.setName(name);
+    	scoreInfo.setSupportedDataTypes(supportedDataTypes);
+    	
+    	System.out.println("id: " + id);
+        System.out.println("name: " + name);
+        for(DataType dataType : supportedDataTypes){
+        	System.out.println("supportedDataType: " + dataType);
+        }
+    	
+    	return scoreInfo;
+    }
+    
+    
+    public static Set<ScoreInfo> parseJSONArrayToScores(String jsonResponse) {
+    	Set<ScoreInfo> scores = new HashSet<>();
+    	
+    	JSONArray jArray = new JSONArray(jsonResponse);
+        for (int i = 0; i < jArray.length(); i++) {
+        	scores.add(parseJSONArrayToScore(jArray.getJSONObject(i)));
+        }
+        
+        return scores;
+    }
+
+    public static IndTestInfo parseJSONArrayToIndTest(JSONObject jObj){
+    	String id = jObj.getString("id");
+    	String name = jObj.getString("name");
+    	Set<DataType> supportedDataTypes = parseJSONArrayToDataTypes(jObj.getJSONArray("supportedDataTypes"));
+    	
+    	IndTestInfo indTestInfo = new IndTestInfo();
+    	indTestInfo.setId(id);
+    	indTestInfo.setName(name);
+    	indTestInfo.setSupportedDataTypes(supportedDataTypes);
+    	
+    	System.out.println("id: " + id);
+        System.out.println("name: " + name);
+        for(DataType dataType : supportedDataTypes){
+        	System.out.println("supportedDataType: " + dataType);
+        }
+    	
+    	return indTestInfo;
+    }
+    
+    public static Set<IndTestInfo> parseJSONArrayToIndTests(String jsonResponse) {
+    	Set<IndTestInfo> tests = new HashSet<>();
+    	
+    	JSONArray jArray = new JSONArray(jsonResponse);
+        for (int i = 0; i < jArray.length(); i++) {
+        	tests.add(parseJSONArrayToIndTest(jArray.getJSONObject(i)));
+        }
+        
+        return tests;
+    }
+    
+    public static Set<DataType> parseJSONArrayToDataTypes(JSONArray jArray){
+    	Set<DataType> dataTypes = new HashSet<>();
+    	
+    	for (int i = 0; i < jArray.length(); i++) {
+        	String _dataType = jArray.getString(i);
+        	DataType dataType = DataType.continuous; // Continuous by default
+        	if(_dataType.equalsIgnoreCase("discrete")){
+        		dataType = DataType.discrete;
+        	}else if(_dataType.equalsIgnoreCase("mixed")){
+        		dataType = DataType.mixed;
+        	}
+        	dataTypes.add(dataType);
+        }
+        
+        return dataTypes;
+    }
+    
+    public static Set<DataType> parseJSONArrayToDataTypes(String jsonResponse) {
+    	return parseJSONArrayToDataTypes(new JSONArray(jsonResponse));
+    }
+    
     public static Set<DataFile> parseJSONArrayToDataFiles(String jsonResponse) {
         Set<DataFile> dataFiles = new HashSet<>();
 
@@ -140,15 +225,24 @@ public class JsonUtils {
         int id = jObj.getInt("id");
         String name = jObj.getString("name");
         String description = jObj.getString("description");
+        boolean requireTest = jObj.getBoolean("requireTest");
+        boolean requireScore = jObj.getBoolean("requireScore");
+        boolean acceptKnowledge = jObj.getBoolean("acceptKnowledge");
 
         AlgorithmInfo algoInfo = new AlgorithmInfo();
         algoInfo.setId(id);
         algoInfo.setName(name);
         algoInfo.setDescription(description);
+        algoInfo.setRequireTest(requireTest);
+        algoInfo.setRequireScore(requireScore);
+        algoInfo.setAcceptKnowledge(acceptKnowledge);
 
         System.out.println("Algorithm id: " + id);
         System.out.println("Algorithm name: " + name);
         System.out.println("Algorithm description: " + description);
+        System.out.println("Algorithm requireTest: " + requireTest);
+        System.out.println("Algorithm requireScore: " + requireScore);
+        System.out.println("Algorithm acceptKnowledge: " + acceptKnowledge);
         System.out.println("----------------------------------------");
 
         return algoInfo;

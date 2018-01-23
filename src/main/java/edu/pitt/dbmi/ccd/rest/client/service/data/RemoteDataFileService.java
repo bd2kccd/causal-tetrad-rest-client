@@ -1,7 +1,10 @@
 package edu.pitt.dbmi.ccd.rest.client.service.data;
 
 import edu.pitt.dbmi.ccd.rest.client.RestHttpsClient;
+import edu.pitt.dbmi.ccd.rest.client.dto.algo.IndTestInfo;
+import edu.pitt.dbmi.ccd.rest.client.dto.algo.ScoreInfo;
 import edu.pitt.dbmi.ccd.rest.client.dto.data.DataFile;
+import edu.pitt.dbmi.ccd.rest.client.dto.data.DataType;
 import edu.pitt.dbmi.ccd.rest.client.dto.user.JsonWebToken;
 import edu.pitt.dbmi.ccd.rest.client.service.AbstractRequestService;
 import edu.pitt.dbmi.ccd.rest.client.util.JsonUtils;
@@ -32,6 +35,58 @@ public class RemoteDataFileService extends AbstractRequestService {
         super(restHttpsClient, scheme, hostname, port);
     }
 
+    public Set<ScoreInfo> retrieveScoreInfos(JsonWebToken jsonWebToken) 
+    		throws URISyntaxException, ClientProtocolException, IOException {
+    	URIBuilder uriBuilder = new URIBuilder().setHost(hostname)
+                .setScheme(scheme)
+                .setPath("/" + REST_API + "/" + jsonWebToken.getUserId() + "/" + SCORES)
+                .setPort(port);
+
+        URI uri = uriBuilder.build();
+        CloseableHttpResponse response = doGet(uri, jsonWebToken);
+        
+        HttpEntity entity = response.getEntity();
+        String jsonResponse = EntityUtils.toString(entity, "UTF-8");
+        System.out.println(jsonResponse);
+        
+    	return JsonUtils.parseJSONArrayToScores(jsonResponse);
+    }
+    
+    public Set<IndTestInfo> retrieveIndTestInfos(JsonWebToken jsonWebToken)
+    		throws URISyntaxException, ClientProtocolException, IOException {
+    	URIBuilder uriBuilder = new URIBuilder().setHost(hostname)
+                .setScheme(scheme)
+                .setPath("/" + REST_API + "/" + jsonWebToken.getUserId() + "/" + TESTS)
+                .setPort(port);
+
+        URI uri = uriBuilder.build();
+        CloseableHttpResponse response = doGet(uri, jsonWebToken);
+        
+        HttpEntity entity = response.getEntity();
+        String jsonResponse = EntityUtils.toString(entity, "UTF-8");
+        System.out.println(jsonResponse);
+        
+    	return JsonUtils.parseJSONArrayToIndTests(jsonResponse);
+    }
+    
+    public Set<DataType> retrieveDataTypes(JsonWebToken jsonWebToken)
+            throws URISyntaxException, ClientProtocolException, IOException {
+    	URIBuilder uriBuilder = new URIBuilder().setHost(hostname)
+                .setScheme(scheme)
+                .setPath("/" + REST_API + "/" + jsonWebToken.getUserId() + "/" + DATATYPES)
+                .setPort(port);
+
+        URI uri = uriBuilder.build();
+        CloseableHttpResponse response = doGet(uri, jsonWebToken);
+        
+        HttpEntity entity = response.getEntity();
+        String jsonResponse = EntityUtils.toString(entity, "UTF-8");
+        System.out.println(jsonResponse);
+        
+    	return JsonUtils.parseJSONArrayToDataTypes(jsonResponse);
+    }
+    
+    
     public Set<DataFile> retrieveDataFileInfo(JsonWebToken jsonWebToken)
             throws URISyntaxException, ClientProtocolException, IOException {
 
