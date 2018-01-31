@@ -1,7 +1,6 @@
 package edu.pitt.dbmi.ccd.rest.client.dto.algo;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -12,17 +11,49 @@ import java.util.Map;
  */
 public class AlgorithmParamRequest {
 
+	private String algoId;
+	
+	private String testId = null;
+	
+	private String scoreId = null;
+	
     private long datasetFileId;
+    
+    private Long priorKnowledgeFileId = null;
+    
+    private Boolean skipDataValidation = null;
 
-    private Map<String, Object> dataValidation;
+    private Set<AlgoParameter> algoParameters;
 
-    private Map<String, Object> AlgorithmParameters;
+    private JvmOptions jvmOptions;
 
-    private Map<String, Object> jvmOptions;
+    private Set<HpcParameter> hpcParameters;
 
-    private List<HpcParameter> hpcParameters;
+    public String getAlgoId() {
+		return algoId;
+	}
 
-    public long getDatasetFileId() {
+	public void setAlgoId(String algoId) {
+		this.algoId = algoId;
+	}
+
+	public String getTestId() {
+		return testId;
+	}
+
+	public void setTestId(String testId) {
+		this.testId = testId;
+	}
+
+	public String getScoreId() {
+		return scoreId;
+	}
+
+	public void setScoreId(String scoreId) {
+		this.scoreId = scoreId;
+	}
+
+	public long getDatasetFileId() {
         return datasetFileId;
     }
 
@@ -30,36 +61,44 @@ public class AlgorithmParamRequest {
         this.datasetFileId = dataFileId;
     }
 
-    public Map<String, Object> getDataValidation() {
-        return dataValidation;
-    }
+    public Long getPriorKnowledgeFileId() {
+		return priorKnowledgeFileId;
+	}
 
-    public void setDataValidation(Map<String, Object> dataValidation) {
-        this.dataValidation = dataValidation;
-    }
+	public void setPriorKnowledgeFileId(Long priorKnowledgeFileId) {
+		this.priorKnowledgeFileId = priorKnowledgeFileId;
+	}
 
-    public Map<String, Object> getAlgorithmParameters() {
-        return AlgorithmParameters;
-    }
+	public Boolean getSkipDataValidation() {
+		return skipDataValidation;
+	}
 
-    public void setAlgorithmParameters(Map<String, Object> algorithmParameters) {
-        AlgorithmParameters = algorithmParameters;
-    }
+	public void setSkipDataValidation(Boolean skipDataValidation) {
+		this.skipDataValidation = skipDataValidation;
+	}
 
-    public Map<String, Object> getJvmOptions() {
-        return jvmOptions;
-    }
+	public Set<AlgoParameter> getAlgoParameters() {
+		return algoParameters;
+	}
 
-    public void setJvmOptions(Map<String, Object> jvmOptions) {
-        this.jvmOptions = jvmOptions;
-    }
+	public void setAlgoParameters(Set<AlgoParameter> algoParameters) {
+		this.algoParameters = algoParameters;
+	}
 
-    public List<HpcParameter> getHpcParameters() {
-        return hpcParameters;
-    }
+	public JvmOptions getJvmOptions() {
+		return jvmOptions;
+	}
 
-    public void setHpcParameters(List<HpcParameter> hpcParameters) {
-        this.hpcParameters = hpcParameters;
-    }
+	public void setJvmOptions(JvmOptions jvmOptions) {
+		this.jvmOptions = jvmOptions;
+	}
+
+	public Set<HpcParameter> getHpcParameters() {
+		return hpcParameters;
+	}
+
+	public void setHpcParameters(Set<HpcParameter> hpcParameters) {
+		this.hpcParameters = hpcParameters;
+	}
 
 }

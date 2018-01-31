@@ -222,7 +222,7 @@ public class JsonUtils {
     }
 
     public static AlgorithmInfo parseJSONObjectToAlgorithmInfo(JSONObject jObj) {
-        int id = jObj.getInt("id");
+        String id = jObj.getString("id");
         String name = jObj.getString("name");
         String description = jObj.getString("description");
         boolean requireTest = jObj.getBoolean("requireTest");
@@ -255,7 +255,7 @@ public class JsonUtils {
 
     public static JobInfo parseJSONObjectToJobInfo(JSONObject jObj) {
         long id = jObj.getLong("id");
-        String algorithmName = jObj.getString("algorithmName");
+        String algoId = jObj.getString("algoId");
         int status = jObj.getInt("status");
         long addedTime = jObj.getLong("addedTime");
         String resultFileName = jObj.getString("resultFileName");
@@ -264,7 +264,7 @@ public class JsonUtils {
 
         JobInfo jobInfo = new JobInfo();
         jobInfo.setId(id);
-        jobInfo.setAlgorithmName(algorithmName);
+        jobInfo.setAlgoId(algoId);
         jobInfo.setStatus(status);
         jobInfo.setAddedTime(new Date(addedTime));
         jobInfo.setResultFileName(resultFileName);
@@ -272,7 +272,7 @@ public class JsonUtils {
         jobInfo.setErrorResultFileName(errorResultFileName);
 
         System.out.println("Job id: " + id);
-        System.out.println("Algorithm name: " + algorithmName);
+        System.out.println("Algorithm id: " + algoId);
         System.out.println("Status: " + status);
         System.out.println("Added date: " + jobInfo.getAddedTime());
         System.out.println("Result FileName: " + resultFileName);

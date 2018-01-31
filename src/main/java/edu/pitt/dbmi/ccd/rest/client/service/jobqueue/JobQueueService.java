@@ -33,16 +33,18 @@ public class JobQueueService extends AbstractRequestService implements AbstractJ
         super(restHttpsClient, scheme, hostname, port);
     }
 
-    public JobInfo addToRemoteQueue(String AlgorithmName, AlgorithmParamRequest algoParamRequest,
+    public JobInfo addToRemoteQueue(AlgorithmParamRequest algoParamRequest,
             JsonWebToken jsonWebToken) throws URISyntaxException, ClientProtocolException, IOException {
         URIBuilder uriBuilder = new URIBuilder().setHost(hostname).setScheme(scheme)
-                .setPath("/" + REST_API + "/" + jsonWebToken.getUserId() + "/" + JOBS + "/" + AlgorithmName)
+                .setPath("/" + REST_API + "/" + jsonWebToken.getUserId() + "/" + NEWJOB)
                 .setPort(port);
 
         URI uri = uriBuilder.build();
 
         JSONObject jsonRequest = new JSONObject(algoParamRequest);
         String json = jsonRequest.toString();
+        System.out.println("json: " + json);
+        
         StringEntity requestEntity = new StringEntity(json, ContentType.APPLICATION_JSON);
 
         CloseableHttpResponse response = doPost(uri, requestEntity, jsonWebToken);
@@ -50,7 +52,7 @@ public class JobQueueService extends AbstractRequestService implements AbstractJ
         HttpEntity entity = response.getEntity();
         String jsonResponse = EntityUtils.toString(entity, "UTF-8");
 
-        System.out.println(jsonResponse);
+        System.out.println("jsonResponse: " + jsonResponse);
 
         return JsonUtils.parseJSONObjectToJobInfo(jsonResponse);
     }
