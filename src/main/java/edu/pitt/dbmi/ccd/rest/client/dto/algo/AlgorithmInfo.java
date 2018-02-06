@@ -9,19 +9,22 @@ package edu.pitt.dbmi.ccd.rest.client.dto.algo;
  */
 public class AlgorithmInfo {
 
-    private int id;
+    private String id;
     private String name;
     private String description;
+    private boolean requireTest;
+    private boolean requireScore;
+    private boolean acceptKnowledge;
 
     public AlgorithmInfo() {
 
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -40,5 +43,29 @@ public class AlgorithmInfo {
     public void setDescription(String description) {
         this.description = description;
     }
+
+	public boolean isRequireTest() {
+		return requireTest;
+	}
+
+	public void setRequireTest(boolean requireTest) {
+		this.requireTest = requireTest;
+	}
+
+	public boolean isRequireScore() {
+		return requireScore;
+	}
+
+	public void setRequireScore(boolean requireScore) {
+		this.requireScore = requireScore;
+	}
+
+	public boolean isAcceptKnowledge() {
+		return acceptKnowledge;
+	}
+
+	public void setAcceptKnowledge(boolean acceptKnowledge) {
+		this.acceptKnowledge = acceptKnowledge;
+	}
 
 }

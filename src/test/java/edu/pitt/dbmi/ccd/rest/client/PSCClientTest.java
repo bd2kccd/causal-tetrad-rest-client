@@ -1,11 +1,12 @@
 package edu.pitt.dbmi.ccd.rest.client;
 
+import edu.pitt.dbmi.ccd.rest.client.dto.algo.AlgoParameter;
 import edu.pitt.dbmi.ccd.rest.client.dto.algo.AlgorithmParamRequest;
 import edu.pitt.dbmi.ccd.rest.client.dto.algo.JobInfo;
+import edu.pitt.dbmi.ccd.rest.client.dto.algo.JvmOptions;
 import edu.pitt.dbmi.ccd.rest.client.dto.algo.ResultFile;
 import edu.pitt.dbmi.ccd.rest.client.dto.data.DataFile;
 import edu.pitt.dbmi.ccd.rest.client.dto.user.JsonWebToken;
-import edu.pitt.dbmi.ccd.rest.client.service.algo.AbstractAlgorithmRequest;
 import edu.pitt.dbmi.ccd.rest.client.service.algo.AlgorithmService;
 import edu.pitt.dbmi.ccd.rest.client.service.data.DataUploadService;
 import edu.pitt.dbmi.ccd.rest.client.service.data.RemoteDataFileService;
@@ -15,6 +16,7 @@ import edu.pitt.dbmi.ccd.rest.client.service.user.UserService;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -49,7 +51,7 @@ public class PSCClientTest extends TestCase {
         final String username = "chw20@pitt.edu";
         final String password = "kongman20";
         final String scheme = "https";
-        final String hostname = "ccd2.vm.bridges.psc.edu";
+        final String hostname = "cloud.ccd.pitt.edu";
         final int port = 443;
 
         RestHttpsClient restClient = new RestHttpsClient(username, password,
@@ -62,7 +64,7 @@ public class PSCClientTest extends TestCase {
 
         DataUploadService dataUploadService = new DataUploadService(restClient,
                 4, scheme, hostname, port);
-        Path file = Paths.get("/Users/kong/Documents/DBMI/tetrad/causal-cmd/test/data/diff_delim/sim_data_20vars_100cases.txt");
+        Path file = Paths.get("/Users/chw20/Documents/DBMI/r-causal/data/charity.txt");
         dataUploadService.startUpload(file, jsonWebToken);
 
         RemoteDataFileService remoteDataService = new RemoteDataFileService(
@@ -100,33 +102,32 @@ public class PSCClientTest extends TestCase {
         algorithmService.listAllAlgorithms(jsonWebToken);
 
         // Run GFCI continuous
-        String algorithmName = AbstractAlgorithmRequest.GFCI;
+        String algoId = "gfci";
+        String testId = "sem-bic";
+        String scoreId = "fisher-z";
         AlgorithmParamRequest paramRequest = new AlgorithmParamRequest();
+        paramRequest.setAlgoId(algoId);
+        paramRequest.setTestId(testId);
+        paramRequest.setScoreId(scoreId);
         paramRequest.setDatasetFileId(id);
 
-        Map<String, Object> DataValidation = new HashMap<>();
-        DataValidation.put("skipNonzeroVariance", false);
-        DataValidation.put("skipUniqueVarName", false);
-        // DataValidation.put("skipCategoryLimit", false);
-        paramRequest.setDataValidation(DataValidation);
+        Set<AlgoParameter> algorithmParameters = new HashSet<>();
+        algorithmParameters.add(new AlgoParameter("alpha", String.valueOf(0.01)));
+        algorithmParameters.add(new AlgoParameter("maxDegree", String.valueOf(100)));
+        algorithmParameters.add(new AlgoParameter("penaltyDiscount", String.valueOf(4.0)));
+        algorithmParameters.add(new AlgoParameter("faithfulnessAssumed", String.valueOf(true)));
+        algorithmParameters.add(new AlgoParameter("verbose", String.valueOf(true)));
+        paramRequest.setAlgoParameters(algorithmParameters);
 
-        Map<String, Object> AlgorithmParameters = new HashMap<>();
-        AlgorithmParameters.put("alpha", 0.01);
-        AlgorithmParameters.put("maxDegree", 100);
-        AlgorithmParameters.put("penaltyDiscount", 4.0);
-        AlgorithmParameters.put("faithfulnessAssumed", true);
-        AlgorithmParameters.put("verbose", true);
-        paramRequest.setAlgorithmParameters(AlgorithmParameters);
-
-        Map<String, Object> JvmOptions = new HashMap<>();
-        JvmOptions.put("maxHeapSize", 100);
-        paramRequest.setJvmOptions(JvmOptions);
+        JvmOptions jvmOptions = new JvmOptions();
+        jvmOptions.setMaxHeapSize(100);
+        paramRequest.setJvmOptions(jvmOptions);
 
         JobQueueService jobQueueService = new JobQueueService(restClient,
                 scheme, hostname, port);
 
         // Submit a job
-        JobInfo jobInfo = jobQueueService.addToRemoteQueue(algorithmName,
+        JobInfo jobInfo = jobQueueService.addToRemoteQueue(
                 paramRequest, jsonWebToken);
 
         // Get all active jobs

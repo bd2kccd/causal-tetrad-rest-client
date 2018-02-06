@@ -13,7 +13,7 @@ public class JobInfo {
 
     private Long id;
 
-    private String algorithmName;
+    private String algoId;
 
     private Date addedTime;
 
@@ -33,12 +33,12 @@ public class JobInfo {
         this.id = id;
     }
 
-    public String getAlgorithmName() {
-        return algorithmName;
+    public String getAlgoId() {
+        return algoId;
     }
 
-    public void setAlgorithmName(String algorithmName) {
-        this.algorithmName = algorithmName;
+    public void setAlgoId(String algoId) {
+        this.algoId = algoId;
     }
 
     public Date getAddedTime() {

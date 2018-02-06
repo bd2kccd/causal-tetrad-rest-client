@@ -19,4 +19,10 @@ public interface RestRequestService {
 
     public static final String SUMMARIZE = "summarize";
 
+    public static final String DATATYPES = "datatypes";
+
+    public static final String TESTS = "tests";
+
+    public static final String SCORES = "scores";
+
 }

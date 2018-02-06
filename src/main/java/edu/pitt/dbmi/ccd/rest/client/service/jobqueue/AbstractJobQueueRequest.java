@@ -11,4 +11,6 @@ public interface AbstractJobQueueRequest {
 
     public static final String JOBS = "jobs";
 
+    public static final String NEWJOB = "newjob";
+    
 }
